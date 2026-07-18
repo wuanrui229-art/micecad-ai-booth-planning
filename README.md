@@ -1,6 +1,6 @@
 # MICECAD AI Booth Planning
 
-MICECAD AI Booth Planning is a bilingual interactive course MVP for exhibition booth planning. It demonstrates how a venue plan and a planning brief can be combined into visible constraints, compared across alternative layouts, revised at booth-object level, checked by deterministic rules, and prepared for professional drafting handoff.
+MICECAD AI Booth Planning is a bilingual interactive course MVP for exhibition booth planning. It demonstrates a coarse-to-fine workflow in which a venue plan and planning brief become visible constraints, an editable zoning and circulation draft, alternative booth layouts, object-level revisions, deterministic rule evidence and a professional drafting handoff.
 
 > **Project boundary:** this repository contains the latest interactive web prototype only. It is not a regulatory compliance system, a production CAD kernel, or an official MICECAD/ExpoCloud integration.
 
@@ -16,7 +16,10 @@ The hosted site may require authorized workspace access. The repository can also
 - Planning brief entry plus an explicit venue-plan requirement.
 - Upload of a venue plan or deliberate selection of the N3 course-demo plan before layout generation is enabled.
 - Explicit confirmation of inferred hard constraints and preferences.
+- A separate zoning and circulation stage before any booth layout is generated.
+- Editable bidirectional, clockwise and counter-clockwise circulation preferences, clearly separated from fire-safety rules.
 - Comparison of three explainable planning alternatives.
+- Color-coded zoning and circulation-overlay views for discussion and handoff preview.
 - Professional booth-object workspace with geometry, type, status, price and version information.
 - Bounded natural-language revision demo: split booths A101 and A103 into eight standard booths while preserving sold inventory.
 - Before/after object diff and approval before version V3 is created.
@@ -30,12 +33,13 @@ The hosted site may require authorized workspace access. The repository can also
 1. Describe the planning task.
 2. Upload a venue plan or explicitly choose the N3 course-demo plan as the spatial reference.
 3. Confirm the recognized venue information and the constraints interpreted by the system.
-4. Compare alternatives that share the same venue geometry and hard constraints.
-5. Open the professional workspace and inspect booth objects.
-6. Submit the supported sample revision.
-7. Review removed and added objects before applying the change.
-8. Create version V3 and inspect recalculated rule evidence.
-9. Export the current object data or open the drafting-handoff preview.
+4. Review the proposed zone allocation and circulation structure.
+5. Select a circulation preference and confirm the coarse spatial structure.
+6. Compare booth alternatives that share the same venue geometry, zoning draft and hard constraints.
+7. Open the professional workspace and switch between booth, zone and circulation views.
+8. Submit the supported sample revision and review the object-level difference.
+9. Create version V3 and inspect recalculated rule evidence.
+10. Export the current object data or open the drafting-handoff preview.
 
 ## Technology
 
@@ -100,6 +104,8 @@ The following are not claimed by this repository:
 ## Responsible Use
 
 AI-oriented explanations and recommendations in the interface are decision-support content. Hard-rule results remain visible, users approve changes, and professional staff remain responsible for final drawings and venue requirements.
+
+Clockwise or counter-clockwise visitor flow is treated only as an editable planning preference. It is not presented as a fire-evacuation rule or proof of statutory compliance.
 
 ## Academic Context
 

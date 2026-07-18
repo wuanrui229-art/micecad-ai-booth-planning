@@ -15,7 +15,7 @@ test("declares the MICECAD AI product metadata", async () => {
 test("keeps the bounded MVP decision loop executable", async () => {
   const page = await readFile(new URL("app/page.tsx", root), "utf8");
 
-  assert.match(page, /type Screen = "dashboard" \| "brief" \| "alternatives" \| "editor"/);
+  assert.match(page, /type Screen = "dashboard" \| "brief" \| "structure" \| "alternatives" \| "editor"/);
   assert.match(page, /applyBoothSplit/);
   assert.match(page, /getRuleResults/);
   assert.match(page, /ValidationDialog/);
@@ -41,4 +41,16 @@ test("blocks layout generation until a spatial reference is selected", async () 
   assert.match(page, /Use the N3 Sample Venue Plan/);
   assert.match(page, /Layout generation requires both a planning brief and a spatial reference/);
   assert.match(page, /disabled=\{!ready\}/);
+});
+
+test("requires zoning and circulation confirmation before booth alternatives", async () => {
+  const page = await readFile(new URL("app/page.tsx", root), "utf8");
+
+  assert.match(page, /setScreen\("structure"\)/);
+  assert.match(page, /Confirm Zoning and Circulation/);
+  assert.match(page, /Confirm Structure and Generate 3 Booth Plans/);
+  assert.match(page, /A revisable planning preference, not a safety rule/);
+  assert.match(page, /function ZoningPlan/);
+  assert.match(page, /Zone View/);
+  assert.match(page, /Circulation View/);
 });
