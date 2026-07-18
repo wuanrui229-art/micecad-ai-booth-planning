@@ -1,6 +1,6 @@
 # MICECAD AI Booth Planning
 
-MICECAD AI Booth Planning is a bilingual interactive course MVP for exhibition booth planning. It demonstrates how a planning brief can be structured into visible constraints, compared across alternative layouts, revised at booth-object level, checked by deterministic rules, and prepared for professional drafting handoff.
+MICECAD AI Booth Planning is a bilingual interactive course MVP for exhibition booth planning. It demonstrates how a venue plan and a planning brief can be combined into visible constraints, compared across alternative layouts, revised at booth-object level, checked by deterministic rules, and prepared for professional drafting handoff.
 
 > **Project boundary:** this repository contains the latest interactive web prototype only. It is not a regulatory compliance system, a production CAD kernel, or an official MICECAD/ExpoCloud integration.
 
@@ -13,7 +13,8 @@ The hosted site may require authorized workspace access. The repository can also
 ## MVP Capabilities
 
 - Chinese and English interface switching.
-- Planning brief entry with a sample venue-plan upload flow.
+- Planning brief entry plus an explicit venue-plan requirement.
+- Upload of a venue plan or deliberate selection of the N3 course-demo plan before layout generation is enabled.
 - Explicit confirmation of inferred hard constraints and preferences.
 - Comparison of three explainable planning alternatives.
 - Professional booth-object workspace with geometry, type, status, price and version information.
@@ -27,13 +28,14 @@ The hosted site may require authorized workspace access. The repository can also
 ## Demonstration Flow
 
 1. Describe the planning task.
-2. Confirm the constraints interpreted by the system.
-3. Compare alternatives that share the same hard constraints.
-4. Open the professional workspace and inspect booth objects.
-5. Submit the supported sample revision.
-6. Review removed and added objects before applying the change.
-7. Create version V3 and inspect recalculated rule evidence.
-8. Export the current object data or open the drafting-handoff preview.
+2. Upload a venue plan or explicitly choose the N3 course-demo plan as the spatial reference.
+3. Confirm the recognized venue information and the constraints interpreted by the system.
+4. Compare alternatives that share the same venue geometry and hard constraints.
+5. Open the professional workspace and inspect booth objects.
+6. Submit the supported sample revision.
+7. Review removed and added objects before applying the change.
+8. Create version V3 and inspect recalculated rule evidence.
+9. Export the current object data or open the drafting-handoff preview.
 
 ## Technology
 

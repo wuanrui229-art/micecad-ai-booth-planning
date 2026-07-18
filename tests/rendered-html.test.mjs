@@ -32,3 +32,13 @@ test("states the prototype and handoff boundaries in the interface", async () =>
   assert.match(page, /The current MVP uses built-in rules/);
   assert.match(page, /Rules are not AI prompts/);
 });
+
+test("blocks layout generation until a spatial reference is selected", async () => {
+  const page = await readFile(new URL("app/page.tsx", root), "utf8");
+
+  assert.match(page, /const \[sourceFile, setSourceFile\] = useState\(""\)/);
+  assert.match(page, /if \(!requestedBrief\.trim\(\) \|\| !sourceFile\)/);
+  assert.match(page, /Use the N3 Sample Venue Plan/);
+  assert.match(page, /Layout generation requires both a planning brief and a spatial reference/);
+  assert.match(page, /disabled=\{!ready\}/);
+});

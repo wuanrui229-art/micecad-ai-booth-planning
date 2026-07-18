@@ -100,7 +100,7 @@ const EN: Record<string, string> = {
   "展馆边界包含": "Within venue boundary", "发现超出示例展馆边界的展位": "One or more booths extend beyond the sample venue boundary", "展位不重叠": "No booth overlap", "未发现展位矩形内部相交": "No booth rectangles overlap", "发现展位矩形内部相交": "Overlapping booth rectangles detected", "主通道净宽": "Main aisle clear width", "两条主通道均保持为 6.0 m": "Both main aisles remain 6.0 m wide", "发现重复展位编号": "Duplicate booth numbers detected", "3 个已售展位的身份、面积和位置均未改变": "The identity, area and position of all 3 sold booths remain unchanged", "至少一个已售展位发生变化": "At least one sold booth has changed", "标准展位配比": "Standard-booth ratio", "通过": "Passed", "提醒": "Warning", "阻断": "Blocked", "查看对象": "View objects", "关闭": "Close", "查看配比调整建议 →": "View ratio adjustment suggestions →",
   "对象级版本记录": "Object-level Version History", "方案 B 的修改历史": "Revision History for Plan B", "恢复版本会同时恢复展位对象、数量、面积和规则结果。": "Restoring a version also restores booth objects, counts, area and rule results.", "首次生成方案 B": "Initial generation of Plan B", "拆分 A101/A103": "Split A101/A103", "初始候选方案": "Initial alternative", "由 AI 修改预览确认后创建": "Created after confirming the AI change preview", "正在使用": "In use", "恢复此版本": "Restore this version",
   "提交 MICECAD 专业绘制": "Submit for MICECAD Professional Drafting", "把已确认的底图、约束、候选方案和修改记录整理为专业绘制任务。": "Package the confirmed base plan, constraints, selected alternative and revision history as a professional drafting task.", "当前方案与展位对象": "Current plan and booth objects", "规划要求及其来源": "Planning brief and sources", "规则检查与待确认事项": "Rule checks and open items", "版本记录和销售属性": "Version history and sales attributes", "补充说明": "Additional Notes", "确认提交演示任务 →": "Confirm Demo Submission →", "这是课程原型中的交互演示，不会实际发送外部任务。": "This is an interactive course prototype; no external task will be sent.",
-  "创建展位规划项目": "Create Booth Planning Project", "选择这次工作的起点": "Choose a Starting Point", "AI 可以从文字、主办方底图或已有方案开始。": "AI can start from text, an organizer’s plan, or an existing layout.", "AI 规划": "AI Planning", "描述需求生成方案": "Generate from a Brief", "从展位数量、通道和分区要求开始": "Start with booth count, aisles and zoning requirements", "导入底图智能规划": "Import a Plan for AI Planning", "上传 PDF、DXF、PNG 或 JPG": "Upload PDF, DXF, PNG or JPG", "其他方式": "Other Options", "修改现有展位方案": "Revise an Existing Plan", "进入工作台进行对象级修改": "Open the workspace for object-level revisions", "复用展区、配比与规则设置": "Reuse zones, ratios and rule settings",
+  "创建展位规划项目": "Create Booth Planning Project", "输入规划需求并选择底图": "Enter a Brief and Choose a Venue Plan", "生成布局必须同时具备规划需求和空间依据。": "Layout generation requires both a planning brief and a spatial reference.", "规划需求": "Planning Brief", "空间依据": "Spatial Reference", "上传场馆底图": "Upload Venue Plan", "上传 PDF、DXF、PNG 或 JPG": "Upload PDF, DXF, PNG or JPG", "使用 N3 馆示例底图": "Use the N3 Sample Venue Plan", "课程演示底图，包含边界、出入口和固定柱位": "Course-demo plan with a boundary, entrances, exits and fixed columns", "尚未选择底图": "No venue plan selected", "已选择底图": "Venue plan selected", "请先上传或选择场馆底图": "Upload or select a venue plan first", "分析需求并确认约束 →": "Analyze Brief and Confirm Constraints →", "其他方式": "Other Options", "修改现有展位方案": "Revise an Existing Plan", "进入工作台进行对象级修改": "Open the workspace for object-level revisions", "复用展区、配比与规则设置": "Reuse zones, ratios and rule settings",
   "收起边栏": "Collapse sidebar", "展开边栏": "Expand sidebar", "返回项目列表": "Back to Projects", "配置模板 →": "Configure Template →", "主通道": "main aisle",
   "模板不是固定图纸": "A Template Is Not a Fixed Drawing", "模板是一组可编辑的起始参数，包括展位配比、目标数量、通道宽度、展区建议和默认规则。确认后，这些参数会进入项目要求，再根据真实展馆底图生成方案。": "A template is an editable starting parameter set: booth mix, target count, aisle width, zoning guidance and default rules. After confirmation, the parameters become project constraints and the plan is generated against the actual venue drawing.",
   "配置模板参数": "Configure Template Parameters", "先调整参数，再把模板应用到真实展馆底图。": "Adjust the parameters first, then apply the template to the actual venue plan.", "展位配比": "Booth Mix", "目标展位数": "Target Booth Count", "标准展位比例": "Standard Booth Ratio", "光地比例": "Raw-space Ratio", "特装比例": "Custom-booth Ratio", "建议展区": "Suggested Zones", "规则预览": "Rule Preview", "配比总和必须为 100%": "Booth ratios must total 100%", "取消": "Cancel", "应用模板并确认要求 →": "Apply Template and Confirm Brief →",
@@ -320,7 +320,7 @@ export default function Home() {
   const [selectedRule, setSelectedRule] = useState<RuleDefinition | null>(null);
   const [ruleSettings, setRuleSettings] = useState<Record<string, { enabled: boolean; threshold?: number }>>(() => Object.fromEntries(ruleDefinitions.map((rule) => [rule.id, { enabled: true, threshold: rule.threshold }])));
   const [targetStandardRatio, setTargetStandardRatio] = useState(45);
-  const [sourceFile, setSourceFile] = useState("N3馆主办方底图.pdf");
+  const [sourceFile, setSourceFile] = useState("");
   const [brief, setBrief] = useState("规划约 150 个展位，保留两条 6 米主通道，食品机械区靠近北入口，并保护所有已售展位。");
   const [constraints, setConstraints] = useState(initialConstraints);
   const [selectedVariant, setSelectedVariant] = useState("B");
@@ -358,7 +358,12 @@ export default function Home() {
   }, [language]);
 
   const startAnalysis = (nextBrief?: string) => {
+    const requestedBrief = nextBrief ?? brief;
     if (nextBrief) setBrief(nextBrief);
+    if (!requestedBrief.trim() || !sourceFile) {
+      setShowCreate(true);
+      return;
+    }
     setShowCreate(false);
     setScreen("brief");
   };
@@ -375,7 +380,11 @@ export default function Home() {
     setRuleSettings((settings) => ({ ...settings, aisle: { ...settings.aisle, enabled: true, threshold: preset.mainAisle } }));
     setTargetStandardRatio(preset.standard);
     setSelectedTemplate(null);
-    setScreen("brief");
+    if (sourceFile) setScreen("brief");
+    else {
+      setDashboardTab("首页");
+      setShowCreate(true);
+    }
   };
 
   const openProject = (project: typeof dashboardProjects[number]) => {
@@ -383,8 +392,10 @@ export default function Home() {
     setScreen("editor");
   };
 
-  const pickFile = (file?: File) => {
-    if (file) setSourceFile(file.name);
+  const pickFile = (file?: File, continueToBrief = true) => {
+    if (!file) return;
+    setSourceFile(file.name);
+    if (!continueToBrief) return;
     setShowCreate(false);
     setScreen("brief");
   };
@@ -510,7 +521,7 @@ export default function Home() {
           <div className="side-user"><span>吴</span><div><b>{language === "en" ? "Anrui Wu" : "吴安睿"}</b><small>{t("课程项目空间")}</small></div><button disabled title={t("暂不支持")}>⋯</button></div>
         </aside>
         <section className="dashboard-main"><header className="dashboard-top"><div className="crumb">{t("工作台")} <span>/</span> {t(dashboardTab)}</div><div><LanguageToggle language={language} onChange={setLanguage} /><button className="help" disabled title={t("暂不支持")}>? {t("使用帮助")}</button><button className="notification" disabled title={t("暂不支持")}>♢<i /></button><span className="avatar">吴</span></div></header>{dashboardContent()}</section>
-        {showCreate && <CreateDialog language={language} onClose={() => setShowCreate(false)} onAnalyze={() => startAnalysis()} onImport={pickFile} onTemplate={() => { setShowCreate(false); setDashboardTab("方案模板"); }} onExisting={() => { setShowCreate(false); setScreen("editor"); }} />}
+        {showCreate && <CreateDialog language={language} brief={brief} sourceFile={sourceFile} onBriefChange={setBrief} onClose={() => setShowCreate(false)} onAnalyze={() => startAnalysis()} onImport={(file) => pickFile(file, false)} onUseSample={() => setSourceFile("N3馆主办方底图.pdf")} onTemplate={() => { setShowCreate(false); setDashboardTab("方案模板"); }} onExisting={() => { setShowCreate(false); setScreen("editor"); }} />}
         {selectedTemplate && <TemplateConfigDialog language={language} template={selectedTemplate} onClose={() => setSelectedTemplate(null)} onApply={applyTemplate} />}
         {selectedRule && <RuleSettingsDialog language={language} rule={selectedRule} settings={ruleSettings[selectedRule.id]} onClose={() => setSelectedRule(null)} onSave={(settings) => { setRuleSettings((items) => ({ ...items, [selectedRule.id]: settings })); setSelectedRule(null); }} />}
         {showSubmit && <SubmitDialog language={language} onClose={() => setShowSubmit(false)} />}
@@ -572,9 +583,10 @@ function FlowSteps({ active, compact = false, language }: { active: number; comp
   return <div className={`flow-steps ${compact ? "compact" : ""}`}>{steps.map((item, index) => <div className={active === index + 1 ? "active" : active > index + 1 ? "done" : ""} key={item}><span>{active > index + 1 ? "✓" : index + 1}</span><b>{translate(item, language)}</b>{index < steps.length - 1 && <i />}</div>)}</div>;
 }
 
-function CreateDialog({ language, onClose, onAnalyze, onImport, onTemplate, onExisting }: { language: Language; onClose: () => void; onAnalyze: () => void; onImport: (file?: File) => void; onTemplate: () => void; onExisting: () => void }) {
+function CreateDialog({ language, brief, sourceFile, onBriefChange, onClose, onAnalyze, onImport, onUseSample, onTemplate, onExisting }: { language: Language; brief: string; sourceFile: string; onBriefChange: (brief: string) => void; onClose: () => void; onAnalyze: () => void; onImport: (file?: File) => void; onUseSample: () => void; onTemplate: () => void; onExisting: () => void }) {
   const t = (text: string) => translate(text, language);
-  return <div className="modal-backdrop" role="presentation" onMouseDown={(event) => event.currentTarget === event.target && onClose()}><section className="create-dialog" role="dialog" aria-modal="true" aria-labelledby="create-title"><button className="modal-close" onClick={onClose}>×</button><div className="dialog-hero"><div><span>{t("创建展位规划项目")}</span><h2 id="create-title">{t("选择这次工作的起点")}</h2><p>{t("AI 可以从文字、主办方底图或已有方案开始。")}</p></div><MiniPlan tone="blue" dense /></div><div className="dialog-group"><h3>{t("AI 规划")}</h3><div className="dialog-grid"><button onClick={onAnalyze}><span className="quick-icon violet">✦</span><div><b>{t("描述需求生成方案")}</b><small>{t("从展位数量、通道和分区要求开始")}</small></div><em>→</em></button><label htmlFor="modal-file"><span className="quick-icon green">↥</span><div><b>{t("导入底图智能规划")}</b><small>{t("上传 PDF、DXF、PNG 或 JPG")}</small></div><em>→</em><input id="modal-file" type="file" accept=".pdf,.dxf,.png,.jpg,.jpeg" onChange={(event) => onImport(event.target.files?.[0])} /></label></div></div><div className="dialog-group"><h3>{t("其他方式")}</h3><div className="dialog-grid"><button onClick={onExisting}><span className="quick-icon blue">⌁</span><div><b>{t("修改现有展位方案")}</b><small>{t("进入工作台进行对象级修改")}</small></div><em>→</em></button><button onClick={onTemplate}><span className="quick-icon amber">▦</span><div><b>{t("从行业模板开始")}</b><small>{t("复用展区、配比与规则设置")}</small></div><em>→</em></button></div></div></section></div>;
+  const ready = brief.trim().length > 0 && sourceFile.length > 0;
+  return <div className="modal-backdrop" role="presentation" onMouseDown={(event) => event.currentTarget === event.target && onClose()}><section className="create-dialog" role="dialog" aria-modal="true" aria-labelledby="create-title"><button className="modal-close" onClick={onClose}>×</button><div className="dialog-hero"><div><span>{t("创建展位规划项目")}</span><h2 id="create-title">{t("输入规划需求并选择底图")}</h2><p>{t("生成布局必须同时具备规划需求和空间依据。")}</p></div><MiniPlan tone="blue" dense /></div><div className="dialog-group project-input-group"><h3>{t("项目输入")}</h3><label className="brief-field">{t("规划需求")}<textarea value={t(brief)} onChange={(event) => onBriefChange(event.target.value)} aria-label={t("规划需求")} /></label><h3>{t("空间依据")}</h3><div className="source-choice-grid"><label htmlFor="modal-file" className={sourceFile && sourceFile !== "N3馆主办方底图.pdf" ? "selected" : ""}><span className="quick-icon green">↥</span><div><b>{t("上传场馆底图")}</b><small>{t("上传 PDF、DXF、PNG 或 JPG")}</small></div><em>{sourceFile && sourceFile !== "N3馆主办方底图.pdf" ? "✓" : "→"}</em><input id="modal-file" type="file" accept=".pdf,.dxf,.png,.jpg,.jpeg" onChange={(event) => onImport(event.target.files?.[0])} /></label><button className={sourceFile === "N3馆主办方底图.pdf" ? "selected" : ""} onClick={onUseSample}><span className="quick-icon violet">▦</span><div><b>{t("使用 N3 馆示例底图")}</b><small>{t("课程演示底图，包含边界、出入口和固定柱位")}</small></div><em>{sourceFile === "N3馆主办方底图.pdf" ? "✓" : "→"}</em></button></div><div className={`source-status ${sourceFile ? "ready" : ""}`}><span>{sourceFile ? "✓" : "!"}</span><b>{sourceFile ? `${t("已选择底图")}：${language === "en" && sourceFile === "N3馆主办方底图.pdf" ? "N3_Organizer_Base_Plan.pdf" : sourceFile}` : t("尚未选择底图")}</b></div><button className="primary analyze-project" disabled={!ready} title={!sourceFile ? t("请先上传或选择场馆底图") : undefined} onClick={onAnalyze}>{t("分析需求并确认约束 →")}</button>{!sourceFile && <p className="input-warning">{t("请先上传或选择场馆底图")}</p>}</div><div className="dialog-group"><h3>{t("其他方式")}</h3><div className="dialog-grid"><button onClick={onExisting}><span className="quick-icon blue">⌁</span><div><b>{t("修改现有展位方案")}</b><small>{t("进入工作台进行对象级修改")}</small></div><em>→</em></button><button onClick={onTemplate}><span className="quick-icon amber">▦</span><div><b>{t("从行业模板开始")}</b><small>{t("复用展区、配比与规则设置")}</small></div><em>→</em></button></div></div></section></div>;
 }
 
 function TemplateConfigDialog({ language, template, onClose, onApply }: { language: Language; template: TemplatePreset; onClose: () => void; onApply: (template: TemplatePreset) => void }) {
