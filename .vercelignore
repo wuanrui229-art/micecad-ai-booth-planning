@@ -3,7 +3,6 @@
 .wrangler
 dist
 outputs
-build
 db
 examples
 worker
